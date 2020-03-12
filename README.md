@@ -5,6 +5,7 @@ Working through [Fullstack D3 and Data Visualization](https://www.newline.co/ful
 ## Dependencies
 
 - Node.js
+- Yarn (for Prettier)
 
 ## Getting Started
 
@@ -16,7 +17,7 @@ Once **node.js** and **npm** are installed, run the following command in your te
 npm install -g live-server
 ```
 
-This will install [**live-server**](https://github.com/tapio/live-server), a simple static server that has live reload built-in. To start your server, run `live-server` in the root `/code` folder and it will even open a new browser window for you.
+This will install [**live-server**](https://github.com/tapio/live-server), a simple static server that has live reload built-in. To start your server, run `live-server` in the root `/fullstack-d3-projects` folder and it will even open a new browser window for you.
 
 ## License
 
