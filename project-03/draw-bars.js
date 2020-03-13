@@ -42,6 +42,12 @@ async function drawBars() {
         `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`
       );
 
+    wrapper.attr("role", "figure").attr("tabindex", "0");
+
+    wrapper
+      .append("title")
+      .text(`Histogram looking at the distribution of ${metric} in 2018.`);
+
     // Create scales
     const xScale = d3
       .scaleLinear()
@@ -64,13 +70,26 @@ async function drawBars() {
       .nice();
 
     // Draw data
-    const binsGroup = bounds.append("g");
+    const binsGroup = bounds
+      .append("g")
+      .attr("tabindex", "0")
+      .attr("role", "list")
+      .attr("aria-label", "histogram bars");
 
     const binGroups = binsGroup
       .selectAll("g")
       .data(bins)
       .enter()
-      .append("g");
+      .append("g")
+      .attr("tabindex", "0")
+      .attr("role", "listitem")
+      .attr(
+        "aria-label",
+        d =>
+          `There were ${yAccessor(d)} days between ${d.x0
+            .toString()
+            .slice(0, 4)} and ${d.x1.toString().slice(0, 4)} ${metric} levels.`
+      );
 
     const barPadding = 1;
 
@@ -128,6 +147,11 @@ async function drawBars() {
       .style("font-size", "1.4em")
       .text(metric)
       .style("text-transform", "capitalize");
+
+    wrapper
+      .selectAll("text")
+      .attr("role", "presentation")
+      .attr("aria-hidden", "true");
   };
   const metrics = [
     "windSpeed",
