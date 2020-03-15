@@ -38,6 +38,7 @@ async function drawBars() {
   // init static elements
   bounds.append("g").attr("class", "bins");
   bounds.append("line").attr("class", "mean");
+  bounds.append("text").attr("class", "mean-label");
   bounds
     .append("g")
     .attr("class", "x-axis")
@@ -103,17 +104,24 @@ async function drawBars() {
     const barText = binGroups
       .select("text")
       .attr("x", d => xScale(d.x0) + (xScale(d.x1) - xScale(d.x0)) / 2)
-      .attr("y", d => yScale(yAccessor(d)) - 5)
-      .text(yAccessor);
+      .attr("y", 0)
+      .style("transform", d => `translateY(${yScale(yAccessor(d)) - 5}px)`)
+      .text(d => yAccessor(d) || "");
 
     const mean = d3.mean(dataset, metricAccessor);
 
     const meanLine = bounds
       .selectAll(".mean")
-      .attr("x1", xScale(mean))
-      .attr("x2", xScale(mean))
       .attr("y1", -20)
-      .attr("y2", dimensions.boundedHeight);
+      .attr("y2", dimensions.boundedHeight)
+      .style("transform", `translateX(${xScale(mean)}px)`);
+
+    const meanLabel = bounds
+      .selectAll(".mean-label")
+      .style("transform", `translateX(${xScale(mean)}px)`)
+      .attr("y", -20)
+      .text("mean")
+      .attr("fill", "maroon");
 
     // 6. Draw peripherals
 
