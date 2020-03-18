@@ -77,36 +77,62 @@ async function drawBars() {
 
     const barPadding = 1;
 
+    const exitTransition = d3.transition().duration(600);
+
+    const updateTransition = exitTransition.transition().duration(600);
+
     let binGroups = bounds
       .select(".bins")
       .selectAll(".bin")
       .data(bins);
 
     const oldBinGroups = binGroups.exit();
-    oldBinGroups.remove();
+    oldBinGroups
+      .selectAll("rect")
+      .style("fill", "red")
+      .transition(exitTransition)
+      .attr("y", dimensions.boundedHeight)
+      .attr("height", 0);
+    oldBinGroups
+      .selectAll("text")
+      .transition(exitTransition)
+      .attr("y", dimensions.boundedHeight);
+    oldBinGroups.transition(exitTransition).remove();
 
     const newBinGroups = binGroups
       .enter()
       .append("g")
       .attr("class", "bin");
 
-    newBinGroups.append("rect");
-    newBinGroups.append("text");
+    newBinGroups
+      .append("rect")
+      .attr("heigh", 0)
+      .attr("x", d => xScale(d.x0) + barPadding)
+      .attr("y", dimensions.boundedHeight)
+      .attr("width", d => d3.max([0, xScale(d.x1) - xScale(d.x0) - barPadding]))
+      .style("fill", "yellowgreen");
+
+    newBinGroups
+      .append("text")
+      .attr("x", d => xScale(d.x0) + (xScale(d.x1) - xScale(d.x0)) / 2)
+      .attr("y", dimensions.boundedHeight);
 
     // update binGroups to include new points
     binGroups = newBinGroups.merge(binGroups);
 
     const barRects = binGroups
       .select("rect")
+      .transition(updateTransition)
       .attr("x", d => xScale(d.x0) + barPadding)
       .attr("y", d => yScale(yAccessor(d)))
       .attr("height", d => dimensions.boundedHeight - yScale(yAccessor(d)))
-      .attr("width", d =>
-        d3.max([0, xScale(d.x1) - xScale(d.x0) - barPadding])
-      );
+      .attr("width", d => d3.max([0, xScale(d.x1) - xScale(d.x0) - barPadding]))
+      .transition()
+      .style("fill", "cornflowerblue");
 
     const barText = binGroups
       .select("text")
+      .transition(updateTransition)
       .attr("x", d => xScale(d.x0) + (xScale(d.x1) - xScale(d.x0)) / 2)
       .attr("y", d => yScale(yAccessor(d)) - 5)
       .text(d => yAccessor(d) || "");
@@ -115,6 +141,7 @@ async function drawBars() {
 
     const meanLine = bounds
       .selectAll(".mean")
+      .transition(updateTransition)
       .attr("x1", xScale(mean))
       .attr("x2", xScale(mean))
       .attr("y1", -20)
@@ -124,7 +151,10 @@ async function drawBars() {
 
     const xAxisGenerator = d3.axisBottom().scale(xScale);
 
-    const xAxis = bounds.select(".x-axis").call(xAxisGenerator);
+    const xAxis = bounds
+      .select(".x-axis")
+      .transition(updateTransition)
+      .call(xAxisGenerator);
 
     const xAxisLabel = xAxis.select(".x-axis-label").text(metric);
   };
