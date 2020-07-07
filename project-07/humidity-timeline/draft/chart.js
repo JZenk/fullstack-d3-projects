@@ -149,10 +149,10 @@ async function drawLineChart() {
 
   const yAxisLabel = yAxis
     .append("text")
-    .attr("y", -dimensions.margin.left + 10)
-    .attr("x", -dimensions.boundedHeight / 2)
+    .attr("y", 4.5)
     .attr("class", "y-axis-label")
     .text("relative humidity");
+
   bounds
     .append("line")
     .attr("x1", 0)
@@ -160,17 +160,6 @@ async function drawLineChart() {
     .attr("y1", dimensions.boundedHeight / 2)
     .attr("y2", dimensions.boundedHeight / 2)
     .attr("class", "y-axis-tick-2");
-
-  const xAxisGenerator = d3
-    .axisBottom()
-    .scale(xScale)
-    .ticks();
-
-  const xAxis = bounds
-    .append("g")
-    .attr("class", "x-axis")
-    .style("transform", `translateY(${dimensions.boundedHeight}px)`)
-    .call(xAxisGenerator);
 }
 drawLineChart();
 

@@ -22,9 +22,7 @@ svg {
 .y-axis-label {
   fill: #34495e;
   font-size: 1.4em;
-  dominant-baseline: middle;
-  text-anchor: middle;
-  transform: rotate(-90deg);
+  text-anchor: start;
 }
 
 .line {
@@ -32,6 +30,30 @@ svg {
   stroke: #34495e;
   stroke-width: 2;
   /* fill: #34495e; */
+}
+.y-axis line,
+.y-axis .domain {
+  display: none;
+}
+.y-axis .tick {
+  fill: #34495e;
+  font-size: 1.6em;
+}
+
+.y-axis-label-suffix {
+  fill: #34495e;
+  text-anchor: start;
+}
+
+.y-axis-label-mean {
+  text-anchor: end;
+  font-size: 0.8em;
+  opacity: 0.5;
+}
+
+.y-axis-tick {
+  stroke: #c8d6e5;
+  stroke-width: 1px;
 }
 
 .y-axis-grid-marks line {
