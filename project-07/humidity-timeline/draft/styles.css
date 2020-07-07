@@ -79,3 +79,20 @@ svg {
   fill: #10ac84;
   fill-opacity: 0.1;
 }
+
+.season-mean {
+  stroke: #8395a7;
+  stroke-width: 2px;
+}
+
+.season-mean-label {
+  fill: #34495e;
+  text-anchor: end;
+  dominant-baseline: middle;
+  font-size: 0.8em;
+  opacity: 0.5;
+}
+
+.season-mean-background {
+  fill: #f8f9fa;
+}

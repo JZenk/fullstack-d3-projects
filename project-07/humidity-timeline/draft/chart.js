@@ -126,6 +126,24 @@ async function drawLineChart() {
     .attr("d", lineGenerator(downsampledData));
 
   // 6. Draw peripherals
+  const seasonMeans = bounds
+    .selectAll(".season-mean")
+    .data(seasonsData)
+    .enter()
+    .append("line")
+    .attr("x1", d => xScale(d.start))
+    .attr("x2", d => xScale(d.end))
+    .attr("y1", d => yScale(d.mean))
+    .attr("y2", d => yScale(d.mean))
+    .attr("class", "season-mean");
+
+  const seasonMeanLabel = bounds
+    .append("text")
+    .attr("x", -15)
+    .attr("y", yScale(seasonsData[0].mean))
+    .attr("class", "season-mean-label")
+    .text("Season mean");
+
   const seasonLabels = bounds
     .selectAll(".season-label")
     .data(seasonsData)
