@@ -45,3 +45,16 @@ addCustomScale(
   "interpolate-rainbow-steps",
   interpolateWithSteps(10).map(d3.interpolateRainbow)
 );
+
+addCustomScale(
+  "interpolate-rainbow-steps-6",
+  interpolateWithSteps(6).map(d3.interpolateRainbow)
+);
+
+addCustomScale("interpolate-80s-rgb", d3.interpolateRgb("lime", "deeppink"));
+addCustomScale("interpolate-80s-hsl", d3.interpolateHsl("lime", "deeppink"));
+addCustomScale("interpolate-80s-hcl", d3.interpolateHcl("lime", "deeppink"));
+addCustomScale(
+  "interpolate-80s-hcl-steps",
+  interpolateWithSteps(6).map(d3.interpolateHcl("lime", "deeppink"))
+);
