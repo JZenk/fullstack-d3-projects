@@ -8,6 +8,7 @@ async function drawLineChart() {
   const dateFormatter = d3.timeFormat("%Y-%m-%d");
   const xAccessor = d => dateParser(d.date);
   dataset = dataset.sort((a, b) => xAccessor(a) - xAccessor(b));
+  const downsampledData = downsampleData(dataset, xAccessor, yAccessor);
   const weeks = d3.timeWeeks(
     xAccessor(dataset[0]),
     xAccessor(dataset[dataset.length - 1])
@@ -93,7 +94,7 @@ async function drawLineChart() {
   const line = bounds
     .append("path")
     .attr("class", "line")
-    .attr("d", lineGenerator(dataset));
+    .attr("d", lineGenerator(downsampledData));
 
   // 6. Draw peripherals
 
