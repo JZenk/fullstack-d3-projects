@@ -50,15 +50,20 @@ async function drawScatter() {
 
   // 4. Create scales
 
+  const temperaturesExtent = d3.extent([
+    ...dataset.map(xAccessor),
+    ...dataset.map(yAccessor)
+  ]);
+
   const xScale = d3
     .scaleLinear()
-    .domain(d3.extent(dataset, xAccessor))
+    .domain(temperaturesExtent)
     .range([0, dimensions.boundedWidth])
     .nice();
 
   const yScale = d3
     .scaleLinear()
-    .domain(d3.extent(dataset, yAccessor))
+    .domain(temperaturesExtent)
     .range([dimensions.boundedHeight, 0])
     .nice();
 
