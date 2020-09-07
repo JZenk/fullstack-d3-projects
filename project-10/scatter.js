@@ -6,6 +6,9 @@ async function drawScatter() {
   // set data constants
   const xAccessor = d => d.temperatureMin;
   const yAccessor = d => d.temperatureMax;
+  const colorScaleYear = 2000;
+  const parseDate = d3.timeParse("%Y-%m-%d");
+  const colorAccessor = d => parseDate(d.date).setYear(colorScaleYear);
 
   // 2. Create chart dimensions
 
@@ -67,6 +70,14 @@ async function drawScatter() {
     .range([dimensions.boundedHeight, 0])
     .nice();
 
+  const colorScale = d3
+    .scaleSequential()
+    .domain([
+      d3.timeParse("%m/%d/%Y")(`1/1/${colorScaleYear}`),
+      d3.timeParse("%m/%d/%Y")(`12/31/${colorScaleYear}`)
+    ])
+    .interpolator(d => d3.interpolateRainbow(-d));
+
   // 5. Draw data
 
   const dotsGroup = bounds.append("g");
@@ -77,7 +88,8 @@ async function drawScatter() {
     .attr("class", "dot")
     .attr("cx", d => xScale(xAccessor(d)))
     .attr("cy", d => yScale(yAccessor(d)))
-    .attr("r", 4);
+    .attr("r", 4)
+    .style("fill", d => colorScale(colorAccessor(d)));
 
   // 6. Draw peripherals
 
